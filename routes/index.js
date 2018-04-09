@@ -4,13 +4,21 @@ var shortid = require('shortid');
 var validUrl = require('valid-url');
 
 var router = express.Router();
-var mLab = "mongodb://localhost:27017/url-shortener";
+var mLab = "mongodb://danielleshwed:URLPassword1@ds239359.mlab.com:39359/urlshortener";
 var MongoClient = mongodb.MongoClient;
+
+// var mongoose = require('mongoose');
+//
+// mongoose.connect("mongodb://localhost:27017/url-shortener");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
+
+router.get('/details', function(req, res, next) {
+  res.json({ ip: req.connection.remoteAddress, browser: req.header('user-agent'), date: new Date(Date.now()).toLocaleString(), })
+})
 
 router.get('/:short', function (req, res, next) {
   MongoClient.connect(mLab, (err, database) => {
@@ -55,7 +63,7 @@ router.get('/new/:url(*)', function (req, res, next) {
           var shortCode = shortid.generate();
           var newUrl = { url: params, short: shortCode };
           collection.insert([newUrl]);
-          res.json({ original_url: params, short_url: "localhost:3000/" + shortCode });
+          res.json({ original_url: params, short_url: "localhost:8080/" + shortCode });
         } else {
           res.json({ error: "Something is wrong with the URL you provided" });
         };
