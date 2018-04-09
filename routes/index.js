@@ -28,7 +28,7 @@ router.get('/:short', function (req, res, next) {
       console.log("Connected")
     }
 
-    const db = database.db('url-shortener');
+    const db = database.db('urlshortener');
     var collection = db.collection('links');
     var params = req.params.short;
 
@@ -54,7 +54,7 @@ router.get('/new/:url(*)', function (req, res, next) {
     } else {
       console.log("Connected")
 
-      const db = database.db('url-shortener');
+      const db = database.db('urlshortener');
       var collection = db.collection('links');
       var params = req.params.url;
 
